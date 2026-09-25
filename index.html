@@ -6,254 +6,343 @@
 <title>استبيان عيادات الطيب — رؤية للإنتاج الفني</title>
 <meta name="description" content="استبيان مقدّم من رؤية للإنتاج الفني إلى عيادات الطيب لبناء الهوية الرقمية والمحتوى الإعلاني.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
 <link rel="icon" href="logo-icon-square.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ============ إعداد ============ */
-/* ضع رابط Google Apps Script هنا بعد النشر (راجع README) */
 :root{
-  --orange:#F37420; --orange-600:#D9601A; --orange-50:#FEF1E8;
-  --teal:#2B7771; --teal-50:#E8F2F1;
-  --ink:#1A1A1A; --ink-2:#2A2A2A; --gray-500:#6B6B6B; --gray-300:#C9C9C9; --gray-200:#E4E4E4; --gray-50:#F7F7F7;
-  --white:#FFFFFF;
-  --font:"IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --orange:#F37420; --orange-soft:rgba(243,116,32,.14); --orange-line:rgba(243,116,32,.35);
+  --teal:#2B7771; --teal-bright:#3FA89F;
+  --bg:#000; --bg-2:#070707; --text:#fff; --muted:rgba(255,255,255,.62); --faint:rgba(255,255,255,.4);
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --glass:linear-gradient(145deg,rgba(255,255,255,.045) 0%,rgba(243,116,32,.012) 100%);
+  --glass-shadow:0 16px 40px -10px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
+  --font:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
   --ease:cubic-bezier(.2,0,0,1);
   --max:1120px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
-body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.75;-webkit-font-smoothing:antialiased;
-  padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(84px + env(safe-area-inset-top,0px));background:var(--bg)}
+body{margin:0;font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom,0px)}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:8px}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-.k{letter-spacing:0} /* كلمات ممطوطة بالتطويل كأسلوب الريفرنس */
+.ltr{direction:ltr;unicode-bidi:isolate}
+.grad{background:linear-gradient(90deg,var(--orange) 0%,#ffd2b3 70%,#fff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-teal{background:linear-gradient(90deg,var(--teal-bright),#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-/* ============ الناف ============ */
-.nav{position:sticky;top:0;z-index:50;background:var(--ink);color:var(--white);padding-top:env(safe-area-inset-top,0px)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand img{height:30px;width:auto}
-.brand b{font-weight:700;font-size:17px}
-.brand span{display:block;font-size:12px;color:var(--gray-300);font-weight:400;line-height:1.2}
-.nav-links{display:flex;gap:26px;font-size:15px}
-.nav-links a{text-decoration:none;color:var(--gray-300);transition:color .2s var(--ease)}
-.nav-links a:hover{color:var(--white)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:16px;
-  border:0;border-radius:10px;padding:13px 24px;cursor:pointer;text-decoration:none;transition:background .2s var(--ease),transform .12s var(--ease)}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--orange);color:var(--white)}
-.btn-primary:hover{background:var(--orange-600)}
-.btn-ghost{background:transparent;color:var(--white);border:1px solid #444}
-.btn-ghost:hover{border-color:var(--white)}
-.btn-line{background:var(--white);color:var(--ink);border:1px solid var(--gray-300)}
-.btn-line:hover{border-color:var(--ink)}
-.btn[disabled]{opacity:.5;cursor:not-allowed}
-@media (max-width:760px){.nav-links{display:none}.nav .btn{padding:10px 16px;font-size:14px}}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;font-weight:700;font-size:15px;border-radius:999px;padding:12px 26px;cursor:pointer;text-decoration:none;border:0;transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s var(--ease)}
+.pill:active{transform:scale(.98)}
+.pill-white{background:#fff;color:#000;box-shadow:0 0 14px rgba(255,255,255,.18)}
+.pill-white:hover{box-shadow:0 0 26px rgba(255,255,255,.32);transform:translateY(-1px)}
+.pill-dark{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--line-2)}
+.pill-dark:hover{background:rgba(255,255,255,.1)}
+.pill-orange{background:var(--orange);color:#fff;box-shadow:0 0 18px rgba(243,116,32,.35)}
+.pill-orange:hover{box-shadow:0 0 30px rgba(243,116,32,.55);transform:translateY(-1px)}
+.pill[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.pill svg{width:18px;height:18px;flex:none}
 
-/* ============ الهيرو ============ */
-.hero{background:var(--ink);color:var(--white);padding:72px 0 88px;position:relative;overflow:hidden}
-.hero .mark-bg{position:absolute;left:-60px;bottom:-80px;width:420px;opacity:.07;pointer-events:none}
-.to{display:inline-flex;align-items:center;gap:10px;border:1px solid #3a3a3a;border-radius:999px;padding:6px 16px 6px 8px;font-size:14px;color:var(--gray-300);margin-bottom:28px}
-.to i{width:26px;height:26px;border-radius:50%;background:var(--teal);display:inline-grid;place-items:center;font-style:normal;color:#fff;font-size:13px;font-weight:700}
-.hero h1{font-size:clamp(34px,6vw,66px);line-height:1.25;font-weight:700;margin:0 0 22px;max-width:19ch}
-.hero h1 .o{color:var(--orange)}
-.hero p.lead{font-size:clamp(17px,2vw,20px);color:#d6d6d6;max-width:58ch;margin:0 0 36px;font-weight:300}
-.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
-.meta-row{display:flex;flex-wrap:wrap;gap:28px;margin-top:56px;padding-top:28px;border-top:1px solid #333}
-.meta-row div{font-size:14px;color:var(--gray-300)}
-.meta-row strong{display:block;font-size:30px;color:var(--white);font-weight:700;line-height:1.2}
+.nav{position:fixed;inset:0 0 auto 0;z-index:60;background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{height:26px;width:auto}
+.brand b{font-size:15px;font-weight:700;line-height:1.2}
+.brand small{display:block;font-size:11px;color:var(--faint);font-weight:400}
+.nav-links{display:flex;gap:28px;font-size:14px}
+.nav-links a{text-decoration:none;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav .pill{padding:9px 20px;font-size:14px}
+@media (max-width:820px){.nav-links{display:none}}
 
-/* ============ الآلية ============ */
-.sec{padding:84px 0}
-.sec h2{font-size:clamp(26px,3.6vw,40px);line-height:1.35;margin:0 0 12px;font-weight:700}
-.sec .sub{color:var(--gray-500);font-size:17px;margin:0 0 44px;max-width:60ch}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--gray-200);border-radius:14px;overflow:hidden}
-.step{padding:30px 28px;border-inline-start:1px solid var(--gray-200);position:relative}
-.step:first-child{border-inline-start:0}
-.step .n{font-size:15px;font-weight:700;color:var(--white);background:var(--teal);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;margin-bottom:18px}
-.step:nth-child(2) .n{background:var(--orange)}
-.step:nth-child(3) .n{background:var(--ink)}
-.step h3{margin:0 0 6px;font-size:20px}
-.step p{margin:0;color:var(--gray-500);font-size:15px}
-@media (max-width:820px){.steps{grid-template-columns:1fr}.step{border-inline-start:0;border-top:1px solid var(--gray-200)}.step:first-child{border-top:0}}
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:140px 0 90px;text-align:center;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:
+  radial-gradient(90% 60% at 50% -10%,rgba(243,116,32,.55) 0%,rgba(243,116,32,.12) 45%,transparent 72%),
+  radial-gradient(60% 50% at 85% 20%,rgba(43,119,113,.35),transparent 70%)}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:220px;z-index:-1;background:linear-gradient(transparent,var(--bg))}
+.shape{position:absolute;border-radius:50%;filter:blur(80px);z-index:-1;opacity:.55;animation:float 14s ease-in-out infinite}
+.s1{width:340px;height:340px;background:var(--orange);top:10%;right:-80px;opacity:.28}
+.s2{width:280px;height:280px;background:var(--teal);bottom:10%;left:-60px;animation-delay:-5s;opacity:.4}
+.s3{width:200px;height:200px;background:#ff9a5a;top:40%;left:30%;animation-delay:-9s;opacity:.15}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-40px)}}
+.hero .to{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid var(--line-2);border-radius:999px;padding:6px 18px 6px 8px;font-size:13.5px;color:var(--muted);margin-bottom:30px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.hero .to i{width:26px;height:26px;border-radius:50%;background:var(--orange);display:inline-grid;place-items:center;font-style:normal;color:#fff;font-size:12px;font-weight:700}
+.hero h1{margin:0 0 26px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.hero h1 span{display:block;font-size:clamp(30px,6.2vw,64px)}
+.hero p.lead{font-size:clamp(16px,2vw,19px);color:var(--muted);max-width:60ch;margin:0 auto 38px;font-weight:400}
+.hero .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-/* ============ الاستبيان ============ */
-.form-sec{background:var(--gray-50);border-top:1px solid var(--gray-200)}
-.layout{display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:start}
+.sec{padding:110px 0;position:relative}
+.sec + .sec{border-top:1px solid var(--line)}
+.head{text-align:center;margin:0 auto 56px;max-width:720px}
+.head h2{margin:0 0 14px;font-size:clamp(28px,4vw,44px);line-height:1.35;font-weight:700}
+.head h2 span{display:block}
+.head p{margin:0;color:var(--muted);font-size:17px}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:24px;box-shadow:var(--glass-shadow);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+
+.why{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.why .card{padding:32px}
+.why .card.wide{grid-column:1/-1;text-align:center}
+.why .card.wide .ic{margin-inline:auto}
+.ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--orange-soft);border:1px solid var(--orange-line);color:var(--orange);margin-bottom:22px}
+.ic svg{width:22px;height:22px}
+.why h3{margin:0 0 8px;font-size:21px;font-weight:700;line-height:1.5}
+.why p{margin:0;color:var(--muted);font-size:15px}
+@media (max-width:760px){.why{grid-template-columns:1fr}.why .card{padding:24px}}
+
+.how{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.steps{list-style:none;margin:0;padding:0}
+.steps li{display:flex;gap:22px;padding:26px 0;border-bottom:1px solid var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps .n{flex:none;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-size:18px;color:var(--teal-bright);background:rgba(43,119,113,.14);border:1px solid rgba(63,168,159,.35)}
+.steps h3{margin:0 0 4px;font-size:19px}
+.steps p{margin:0;color:var(--muted);font-size:15px}
+.how-side h2{margin:0 0 14px;font-size:clamp(28px,3.6vw,42px);line-height:1.35}
+.how-side h2 span{display:block}
+.how-side p{color:var(--muted);margin:0 0 28px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.stat{padding:22px 18px;text-align:center}
+.stat b{display:block;font-size:34px;line-height:1.2;font-weight:700}
+.stat hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+.stat em{display:block;font-style:normal;color:var(--orange);font-size:13px;font-weight:700}
+.stat span{font-size:13px;color:var(--muted)}
+@media (max-width:900px){.how{grid-template-columns:1fr;gap:40px}.how-side{order:-1;text-align:center}}
+
+.form-sec{background:var(--bg-2)}
+.form-sec::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(50% 30% at 50% 0%,rgba(243,116,32,.1),transparent 70%)}
+.layout{display:grid;grid-template-columns:270px 1fr;gap:40px;align-items:start;position:relative}
 .layout > *{min-width:0}
-body{overflow-x:hidden}
-@media (max-width:900px){.layout{grid-template-columns:1fr;gap:24px}}
-.rail{position:sticky;top:96px}
+.rail{position:sticky;top:100px;padding:14px}
 .rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
-.rail button{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:15px;color:var(--gray-500)}
-.rail button:hover{background:var(--white)}
-.rail button .d{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--gray-300);display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
-.rail button[aria-current="step"]{background:var(--white);color:var(--ink);font-weight:700;box-shadow:inset -4px 0 0 var(--orange)}
-.rail button[aria-current="step"] .d{border-color:var(--orange);color:var(--orange)}
+.rail button{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:14px;cursor:pointer;font-size:14.5px;color:var(--muted);transition:background .2s,color .2s}
+.rail button:hover{background:rgba(255,255,255,.05);color:#fff}
+.rail button:focus-visible{outline:2px solid var(--orange)}
+.rail .d{width:30px;height:30px;border-radius:9px;border:1px solid var(--line-2);display:grid;place-items:center;font-size:13px;font-weight:700;flex:none;transition:all .2s}
+.rail button[aria-current="step"]{background:rgba(243,116,32,.1);color:#fff;font-weight:600}
+.rail button[aria-current="step"] .d{border-color:var(--orange);color:var(--orange);background:var(--orange-soft)}
 .rail button.done .d{background:var(--teal);border-color:var(--teal);color:#fff}
-.progress{margin-top:22px;padding:16px;background:var(--white);border:1px solid var(--gray-200);border-radius:12px;font-size:14px;color:var(--gray-500)}
-.bar{height:6px;background:var(--gray-200);border-radius:99px;overflow:hidden;margin-top:10px}
-.bar i{display:block;height:100%;width:0;background:var(--orange);transition:width .32s var(--ease)}
-.saved{font-size:12px;color:var(--teal);margin-top:8px;min-height:18px}
+.progress{margin-top:14px;padding:16px 12px 6px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.bar{height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),#ffb27d);border-radius:99px;transition:width .4s var(--ease)}
+.saved{font-size:12px;color:var(--teal-bright);margin-top:8px;min-height:18px}
 @media (max-width:900px){
-  .rail{position:sticky;top:calc(68px + env(safe-area-inset-top,0px));z-index:10;background:var(--gray-50);padding:10px 0;margin:0 -24px;padding-inline:24px;border-bottom:1px solid var(--gray-200)}
-  .rail ol{flex-direction:row;overflow-x:auto;gap:6px;scrollbar-width:none}
-  .rail button{width:auto;white-space:nowrap;padding:8px 12px;font-size:14px}
-  .rail button[aria-current="step"]{box-shadow:inset 0 -3px 0 var(--orange)}
+  .layout{grid-template-columns:1fr;gap:20px}
+  .rail{top:calc(68px + env(safe-area-inset-top,0px));z-index:20;padding:8px;border-radius:18px;background:rgba(10,10,10,.85)}
+  .rail ol{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none}
+  .rail ol::-webkit-scrollbar{display:none}
+  .rail button{width:auto;white-space:nowrap;padding:8px 12px;font-size:13.5px}
   .progress{display:none}
 }
-
 .panel{display:none}
-.panel.on{display:block;animation:in .32s var(--ease)}
-@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.panel.on{animation:none}html{scroll-behavior:auto}.bar i{transition:none}}
-.panel-head{margin-bottom:28px}
-.panel-head .part{font-size:14px;color:var(--teal);font-weight:600}
-.panel-head h2{font-size:clamp(24px,3vw,34px);margin:2px 0 8px;line-height:1.35}
-.panel-head p{margin:0;color:var(--gray-500)}
-.group{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;margin-bottom:22px;overflow:hidden}
-.group > h3{margin:0;padding:18px 24px;font-size:17px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:10px}
-.group > h3::before{content:"";width:4px;height:20px;background:var(--orange);border-radius:2px}
-.q{padding:22px 24px;border-bottom:1px solid var(--gray-200)}
+.panel.on{display:block;animation:pin .45s var(--ease)}
+@keyframes pin{from{opacity:0;transform:translateY(10px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.panel-head{margin-bottom:26px}
+.panel-head .part{display:inline-block;font-size:13px;font-weight:700;color:var(--orange);background:var(--orange-soft);border:1px solid var(--orange-line);padding:3px 12px;border-radius:999px;margin-bottom:10px}
+.panel-head h2{font-size:clamp(26px,3.4vw,38px);margin:0 0 6px;line-height:1.35}
+.panel-head p{margin:0;color:var(--muted)}
+.group{margin-bottom:20px;overflow:hidden}
+.group > h3{margin:0;padding:20px 26px;font-size:17px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.group > h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange)}
+.q{padding:24px 26px;border-bottom:1px solid var(--line)}
 .q:last-child{border-bottom:0}
-.q label.t{display:block;font-weight:600;font-size:16.5px;margin-bottom:4px;line-height:1.6}
-.q .hint{font-size:14px;color:var(--gray-500);margin:0 0 12px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
-.chip{font-family:inherit;font-size:14px;border:1px solid var(--gray-300);background:var(--white);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;transition:all .15s var(--ease);direction:rtl}
-.chip:hover{border-color:var(--ink)}
-.chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
-textarea,input[type=text],input[type=tel]{width:100%;font-family:inherit;font-size:16px;color:var(--ink);background:var(--white);border:1px solid var(--gray-300);border-radius:10px;padding:12px 14px;line-height:1.7;transition:border-color .15s var(--ease)}
-textarea{min-height:96px;resize:vertical}
-textarea:focus,input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-50)}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media (max-width:600px){.row2{grid-template-columns:1fr}}
-.nav-btns{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
-.err{color:#C0392B;font-size:14px;margin-top:10px;min-height:20px}
+.q label.t{display:block;font-weight:600;font-size:16.5px;margin-bottom:4px;line-height:1.65}
+.q .req{color:var(--orange)}
+.q .hint{font-size:14px;color:var(--faint);margin:0 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+.chip{font-family:inherit;font-size:13.5px;border:1px solid var(--line-2);background:rgba(255,255,255,.04);color:rgba(255,255,255,.85);border-radius:999px;padding:6px 15px;cursor:pointer;transition:all .18s var(--ease)}
+.chip:hover{border-color:rgba(255,255,255,.35);color:#fff}
+.chip[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:#fff;box-shadow:0 0 14px rgba(243,116,32,.4)}
+textarea,input[type=text],input[type=tel]{width:100%;font-family:inherit;font-size:16px;color:#fff;background:rgba(255,255,255,.035);border:1px solid var(--line-2);border-radius:14px;padding:13px 16px;line-height:1.7;transition:border-color .2s,box-shadow .2s,background .2s}
+textarea{min-height:100px;resize:vertical}
+textarea::placeholder,input::placeholder{color:rgba(255,255,255,.3)}
+textarea:focus,input:focus{outline:none;border-color:var(--orange);background:rgba(255,255,255,.05);box-shadow:0 0 0 4px rgba(243,116,32,.15)}
+input[aria-invalid="true"]{border-color:#ff5c5c;box-shadow:0 0 0 4px rgba(255,92,92,.14)}
+.field-err{color:#ff7b7b;font-size:13.5px;margin-top:8px;min-height:0}
+.field-err:empty{display:none}
+.nav-btns{display:flex;justify-content:space-between;gap:12px;margin-top:8px;flex-wrap:wrap}
+.err{color:#ff7b7b;font-size:14px;margin-top:12px}
+.err:empty{display:none}
+.done-box{padding:56px 32px;text-align:center;position:relative;overflow:hidden}
+.done-box::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 50% 0%,rgba(243,116,32,.25),transparent 70%);pointer-events:none}
+.done-box img{width:54px;margin-bottom:20px;position:relative}
+.done-box h2{margin:0 0 10px;font-size:clamp(26px,3.4vw,36px);position:relative}
+.done-box p{color:var(--muted);margin:0 auto 28px;max-width:46ch;position:relative}
 
-/* ============ النجاح ============ */
-.done-box{background:var(--ink);color:#fff;border-radius:16px;padding:48px 36px;text-align:center}
-.done-box img{width:56px;margin-bottom:18px}
-.done-box h2{margin:0 0 10px;font-size:30px}
-.done-box p{color:#d6d6d6;margin:0 auto 26px;max-width:46ch}
+.final{text-align:center;padding:120px 0 70px;position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(55% 45% at 50% 55%,rgba(43,119,113,.35),transparent 70%)}
+.final h2{margin:0 0 16px;font-size:clamp(28px,4vw,44px);line-height:1.4}
+.final h2 span{display:block}
+.final p{color:var(--muted);margin:0 0 34px}
+.contact{margin-top:80px;padding-top:40px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:14px;font-size:14.5px;color:var(--muted)}
+.contact h4{margin:0 0 6px;color:#fff;font-size:15px}
+.contact a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--muted);transition:color .2s}
+.contact a:hover{color:#fff}
+.contact svg{width:16px;height:16px;opacity:.7}
+.copy{margin-top:34px;font-size:12.5px;color:var(--faint)}
 
-/* ============ الفوتر ============ */
-footer{background:var(--ink);color:var(--gray-300);padding:48px 0 36px;font-size:15px}
-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;align-items:center}
-footer a{text-decoration:none;color:var(--white)}
-footer ul{list-style:none;margin:0;padding:0;display:flex;gap:22px;flex-wrap:wrap}
-.ltr{direction:ltr;unicode-bidi:embed}
-
+.reveal{opacity:0;transform:translateY(26px);filter:blur(10px);transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
+.reveal.in{opacity:1;transform:none;filter:none}
+.hero .reveal{transition-duration:1s}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;filter:none;transition:none}
+  .shape{animation:none}
+  .panel.on{animation:none}
+}
 @media print{
-  .nav,.hero,#how,.rail,.nav-btns,footer,.chips .chip[aria-pressed="false"]{display:none!important}
-  .panel{display:block!important}
-  .form-sec{background:#fff}.layout{display:block}
+  .nav,.hero,#why,#how,.rail,.nav-btns,.final,.shape{display:none!important}
+  body,.form-sec{background:#fff;color:#000}.panel{display:block!important}.layout{display:block}
 }
 </style>
 </head>
 <body>
-
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="رؤية للإنتاج الفني">
       <img src="logo-mark-white.svg" alt="">
-      <b>رؤية للإنتاج الفني<span class="ltr">Vision Production</span></b>
+      <b>رؤية للإنتاج الفني<small class="ltr">Vision Production</small></b>
     </a>
     <nav class="nav-links" aria-label="أقسام الصفحة">
-      <a href="#how">آلـــيـــة الاستبيان</a>
+      <a href="#why">لـــيـــش الاستبيان؟</a>
+      <a href="#how">آلـــيـــة العمل</a>
       <a href="#form">الأسئلة</a>
-      <a href="https://wa.me/9647760076003" target="_blank" rel="noopener">تواصل ويانا</a>
+      <a href="#contact">تواصل ويانا</a>
     </nav>
-    <a class="btn btn-primary" href="#form">ابـــدأ الاستبيان</a>
+    <a class="pill pill-white" href="#form">ابـــدأ الاستبيان</a>
   </div>
 </header>
-
 <main id="top">
 <section class="hero">
-  <img class="mark-bg" src="logo-mark.svg" alt="">
+  <div class="shape s1" aria-hidden="true"></div>
+  <div class="shape s2" aria-hidden="true"></div>
+  <div class="shape s3" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="to"><i>ط</i> مقدّم إلى د. محمد الأسدي — عيادات الطيب، النجف</div>
-    <h1>قبل ما نصوّر أي إعلان .. <span class="o">لازم نعرف العيادة من جوّه</span></h1>
-    <p class="lead">هذا الاستبيان هو الخطوة الأولى لبناء هوية رقمية قوية ومحتوى إعلاني يـــبـــيـــع. كل جواب تكتبه يتحوّل لسيناريو، ولقطة، وجملة تقنع المريض يحجز.</p>
-    <div class="cta">
-      <a class="btn btn-primary" href="#form">ابـــدأ الإجابة</a>
-      <a class="btn btn-ghost" href="#how">شوف شلون يمشي</a>
-    </div>
-    <div class="meta-row">
-      <div><strong>٣</strong>أقسام: الأسنان، التجميل، الخطة</div>
-      <div><strong>٣١</strong>سؤال مختصر</div>
-      <div><strong>تلقائي</strong>إجاباتك تنحفظ على جهازك</div>
+    <div class="to reveal"><i>ط</i>مقدّم إلى د. محمد الأسدي — عيادات الطيب، النجف</div>
+    <h1 class="reveal">
+      <span>قبل ما نصوّر أي إعـــلان ..</span>
+      <span class="grad">لازم نـــعـــرف العيادة من جـــوّه !</span>
+    </h1>
+    <p class="lead reveal">هذا الاستبيان هو الخطوة الأولى لبناء هوية رقمية قوية ومحتوى إعلاني يـــبـــيـــع. كل جواب تكتبه يتحوّل لسيناريو ولقطة وجملة تـــقـــنـــع المريض يحجز.</p>
+    <div class="cta reveal">
+      <a class="pill pill-white" href="#form">يله نبدأ الإجابة</a>
+      <a class="pill pill-dark" href="#how">شوف آلـــيـــة العمل</a>
     </div>
   </div>
 </section>
-
+<section class="sec" id="why">
+  <div class="wrap">
+    <div class="head reveal">
+      <h2><span>ليش نسألك كل هالتفاصيل</span><span class="grad">قبل ما نـــصـــوّر ؟</span></h2>
+      <p>لأن الإعلان الطبي الي يـــبـــيـــع يبدي من فهم العيادة، مو من الكاميرا.</p>
+    </div>
+    <div class="why">
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></div>
+        <h3>المريض يـــخـــاف قبل ما يحجز !</h3>
+        <p>الإبرة، الألم، السعر، الضمان .. إذا ما عرفنا مخاوفه بالضبط، ما نكدر نكتب الجملة الي تطمّنه.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+        <h3>الأجهزة الحديثة لازم تـــنـــشـــاف</h3>
+        <p>السكانر، الليزر، الهايفو .. كل جهاز عنده فائدة مباشرة للمريض، وهذي الفائدة هي الإعلان.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg></div>
+        <h3>لـــغـــة العيادة لازم تشبه مرضاها</h3>
+        <p>الكلمات الي يحبها المريض ويرددها هي الي نحطها بالسيناريو، مو مصطلحات جـــامـــدة.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></div>
+        <h3>الثقة تنبني بـــالـــتـــفـــاصـــيـــل</h3>
+        <p>براند الزرعة، نوع القشور، رقم التشغيلة، شروط الضمان .. هاي التفاصيل تفرق عيادتك عن غيرها.</p>
+      </div>
+      <div class="card wide reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg></div>
+        <h3>حتى أقوى عيادة عادي إعلانها يـــفـــشـــل</h3>
+        <p>إذا جان المحتوى عام ويشبه كل العيادات .. المريض يسوي skip قبل ما يعرف شنو يميّزكم.</p>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="sec" id="how">
-  <div class="wrap">
-    <h2>شلون يـــمـــشـــي الاستبيان؟</h2>
-    <p class="sub">ما يحتاج تخلصه بجلسة وحدة. اكتب الي تعرفه، ارجع بعدين، وإجاباتك تبقى محفوظة.</p>
-    <div class="steps">
-      <div class="step"><div class="n">١</div><h3>تجاوب بالتفصيل</h3><p>كل سؤال بيه أمثلة، اختار منها أو اكتب بكلامك. كلما تفصّل أكثر، يطلع المحتوى أدق.</p></div>
-      <div class="step"><div class="n">٢</div><h3>ترسل الإجابات</h3><p>بضغطة وحدة توصلنا الإجابات مباشرة، ونرجعلك خلال ٤٨ ساعة بملاحظاتنا الأولية.</p></div>
-      <div class="step"><div class="n">٣</div><h3>نبني الخطة</h3><p>نحوّل إجاباتك لخطة محتوى الشهر الأول، سيناريوهات، ورسائل إعلانية جاهزة للتصوير.</p></div>
+  <div class="wrap how">
+    <ol class="steps">
+      <li class="reveal"><span class="n">١</span><div><h3>تجاوب بـــالـــتـــفـــصـــيـــل</h3><p>كل سؤال بيه اختيارات سريعة وأمثلة. اختار منها أو اكتب بكلامك، وكلما تفصّل أكثر يطلع المحتوى أدق.</p></div></li>
+      <li class="reveal"><span class="n">٢</span><div><h3>تكمّل على راحتك</h3><p>ما يحتاج تخلصه بجلسة وحدة. إجاباتك تنحفظ تلقائياً على جهازك، ارجع أي وقت وكمّل.</p></div></li>
+      <li class="reveal"><span class="n">٣</span><div><h3>ترسل بضغطة وحدة</h3><p>الإجابات توصل لفريق رؤية مباشرة، ونرجعلك خلال ٤٨ ساعة بملاحظاتنا الأولية.</p></div></li>
+      <li class="reveal"><span class="n">٤</span><div><h3>نـــبـــنـــي الخطة</h3><p>نحوّل إجاباتك لخطة محتوى الشهر الأول: سيناريوهات، ورسائل إعلانية جاهزة للتصوير.</p></div></li>
+    </ol>
+    <div class="how-side">
+      <h2 class="reveal"><span>شلون يـــمـــشـــي</span><span class="grad-teal">الاستبيان ؟</span></h2>
+      <p class="reveal">أسئلة مرتبة على ثلاث أقسام، تاخذ من وقتك تقريباً ربع ساعة.</p>
+      <div class="stats">
+        <div class="card stat reveal"><b>٣</b><hr><em>أقسام</em><span>الأسنان، التجميل، الخطة</span></div>
+        <div class="card stat reveal"><b>٣١</b><hr><em>سؤال</em><span>مع اختيارات سريعة</span></div>
+        <div class="card stat reveal"><b>١٥</b><hr><em>دقيقة تقريباً</em><span>وتكدر توقف وترجع</span></div>
+        <div class="card stat reveal"><b>٤٨</b><hr><em>ساعة</em><span>ونرجعلك بالخطة الأولية</span></div>
+      </div>
     </div>
   </div>
 </section>
-
 <section class="sec form-sec" id="form">
-  <div class="wrap layout">
-    <aside class="rail" aria-label="مراحل الاستبيان">
-      <ol id="railList"></ol>
-      <div class="progress">
-        <span id="progTxt">أجبت على ٠ من ٣١</span>
-        <div class="bar"><i id="progBar"></i></div>
-        <div class="saved" id="saved" aria-live="polite"></div>
-      </div>
-    </aside>
-
-    <form id="survey" novalidate>
-      <div id="panels"></div>
-      <div class="panel" id="panel-done" tabindex="-1">
-        <div class="done-box">
-          <img src="logo-mark.svg" alt="">
-          <h2>وصلتنا إجاباتك، شكراً دكتور</h2>
-          <p>فريق رؤية راح يراجع التفاصيل ويرجعلك خلال ٤٨ ساعة بالخطة الأولية للمحتوى.</p>
-          <a class="btn btn-primary" href="https://wa.me/9647760076003" target="_blank" rel="noopener">راسلنا على واتساب</a>
+  <div class="wrap">
+    <div class="head reveal">
+      <h2><span>يله نبدأ ..</span><span class="grad">عـــرّفنا على عيادتك !</span></h2>
+      <p>اختار القسم من القائمة، وجاوب بالترتيب الي يريحك.</p>
+    </div>
+    <div class="layout">
+      <aside class="rail card" aria-label="مراحل الاستبيان">
+        <ol id="railList"></ol>
+        <div class="progress">
+          <span id="progTxt">أجبت على ٠ من ٣١</span>
+          <div class="bar"><i id="progBar"></i></div>
+          <div class="saved" id="saved" aria-live="polite"></div>
         </div>
-      </div>
-    </form>
+      </aside>
+      <form id="survey" novalidate>
+        <div id="panels"></div>
+        <div class="panel" id="panel-done" tabindex="-1">
+          <div class="card done-box">
+            <img src="logo-mark.svg" alt="">
+            <h2>وصلتنا إجاباتك، شكراً دكتور</h2>
+            <p>فريق رؤية راح يراجع التفاصيل ويرجعلك خلال ٤٨ ساعة بالخطة الأولية للمحتوى.</p>
+            <a class="pill pill-white" href="https://wa.me/9647760076003" target="_blank" rel="noopener">راسلنا على واتساب</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<section class="final" id="contact">
+  <div class="wrap">
+    <h2 class="reveal"><span>عندك سؤال قبل ما تـــبـــدي ؟</span><span>احنا حاضرين نـــجـــاوبك !</span></h2>
+    <p class="reveal">راسلنا على واتساب وأي شي مو واضح نوضحه إلك بدقيقة.</p>
+    <a class="pill pill-white reveal" href="https://wa.me/9647760076003" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.6-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>
+      راسلنا هسه
+    </a>
+    <div class="contact">
+      <h4>تواصل ويانا</h4>
+      <a class="ltr" href="https://wa.me/9647760076003" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>+964 776 007 6003</a>
+      <a class="ltr" href="https://instagram.com/vision.production" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>@vision.production</a>
+      <a class="ltr" href="mailto:v.production.iq@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>v.production.iq@gmail.com</a>
+      <div class="copy">رؤية للإنتاج الفني — نصنع الصورة التي تُروى</div>
+    </div>
   </div>
 </section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <a class="brand" href="#top"><img src="logo-mark-white.svg" alt="" style="height:28px"><b>رؤية للإنتاج الفني<span>نصنع الصورة التي تُروى</span></b></a>
-    <ul>
-      <li><a class="ltr" href="https://wa.me/9647760076003" target="_blank" rel="noopener">+964 776 007 6003</a></li>
-      <li><a class="ltr" href="https://instagram.com/vision.production" target="_blank" rel="noopener">@vision.production</a></li>
-      <li><a class="ltr" href="mailto:v.production.iq@gmail.com">v.production.iq@gmail.com</a></li>
-    </ul>
-  </div>
-</footer>
-
 <script>
-/* ================= الإعداد =================
-   الصق رابط Web App من Google Apps Script هنا: */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxNuKBBE--kjWZGGyFlDEe_W1_1A2xMT2rH_RVgwObgd9zWsytf20wuVM1G_8FMKS-R/exec";
 const STORE_KEY = "vision_alteeb_survey_v1";
-
-/* ================= الأسئلة ================= */
 const PARTS = [
  { id:"info", rail:"معلومات التواصل", part:"قبل ما نبدأ", title:"منو يجاوب على الاستبيان؟",
    desc:"حتى نعرف ويا منو نتابع التفاصيل.",
    groups:[{ title:"بيانات أساسية", qs:[
      {id:"contact_name", t:"الاسم", type:"text", req:true},
      {id:"contact_role", t:"الصفة", type:"text", hint:"مثلاً: مدير العيادة، طبيب، مسؤول التسويق"},
-     {id:"contact_phone", t:"رقم الهاتف أو الواتساب", type:"tel", req:true},
+     {id:"contact_phone", t:"رقم الهاتف أو الواتساب", type:"tel", req:true, hint:"مثلاً: 07801234567 أو 9647801234567+"},
    ]}]},
-
  { id:"dental", rail:"قسم الأسنان", part:"الجزء الأول", title:"قسم عيادة الأسنان",
    desc:"الأجهزة، الخدمات، ومخاوف المرضى — أساس كل إعلان راح نكتبه لهذا القسم.",
    groups:[
@@ -286,7 +375,6 @@ const PARTS = [
       chips:["بدون ألم","ضمان مدى الحياة","ابتسامة طبيعية","أحدث التقنيات","وقتك محفوظ"]},
      {id:"d_impression", t:"شنو أبرز تجربة أو انطباع يعبّر عنه المريض بعد ما تخلص الجلسة؟"},
    ]}]},
-
  { id:"cosmetic", rail:"قسم التجميل", part:"الجزء الثاني", title:"قسم التجميل اللاجراحي",
    desc:"هنا الثقة هي كلشي: المواد، الأجهزة، وشلون نطمّن العميلة قبل ما تحجز.",
    groups:[
@@ -320,7 +408,6 @@ const PARTS = [
       chips:["النضارة الكورية","الشفايف الروسية","تحديد التكساس الطبيعي","Glass skin"]},
      {id:"c_redlines", t:"شنو الخطوط الحمراء أو الممنوعات الي ما لازم نذكرها أو نركز عليها بمحتوى هذا القسم؟"},
    ]}]},
-
  { id:"plan", rail:"الخطة والإنتاج", part:"الجزء الثالث", title:"الخطة التشغيلية والإنتاج المرئي",
    desc:"آخر خطوة: منو يطلع بالكاميرا، وشنو أولويتكم بالشهر الأول.",
    groups:[{ title:"الكادر والأولويات", qs:[
@@ -330,54 +417,72 @@ const PARTS = [
      {id:"p_notes", t:"ملاحظات إضافية"},
    ]}]}
 ];
-
-/* ================= البناء ================= */
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const toAr = n => String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
 const allQs = PARTS.flatMap(p=>p.groups.flatMap(g=>g.qs));
-const countable = allQs.filter(q=>!["contact_name","contact_role","contact_phone"].includes(q.id));
-
+const infoQs = PARTS[0].groups[0].qs;
+const countable = allQs.filter(q=>!infoQs.includes(q));
 const panels = document.getElementById("panels");
 const rail = document.getElementById("railList");
-
 PARTS.forEach((p,i)=>{
   rail.insertAdjacentHTML("beforeend",
     `<li><button type="button" data-go="${i}"><span class="d">${toAr(i+1)}</span>${esc(p.rail)}</button></li>`);
   const groups = p.groups.map(g=>`
-    <div class="group"><h3>${esc(g.title)}</h3>
+    <div class="card group"><h3>${esc(g.title)}</h3>
       ${g.qs.map(q=>{
+        const desc=[q.hint?`h-${q.id}`:"", q.type==="tel"?`e-${q.id}`:""].filter(Boolean).join(" ");
         const hint = q.hint?`<p class="hint" id="h-${q.id}">${esc(q.hint)}</p>`:"";
         const chips = q.chips?`<div class="chips" role="group" aria-label="اختيارات سريعة">${q.chips.map(c=>
           `<button type="button" class="chip" aria-pressed="false" data-q="${q.id}" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div>`:"";
         const field = (q.type==="text"||q.type==="tel")
-          ? `<input type="${q.type}" id="${q.id}" name="${q.id}" ${q.req?"required":""} ${q.type==="tel"?'dir="ltr" inputmode="tel"':""} ${q.hint?`aria-describedby="h-${q.id}"`:""}>`
-          : `<textarea id="${q.id}" name="${q.id}" ${q.hint?`aria-describedby="h-${q.id}"`:""} placeholder="${q.chips?"اختار من فوق وأضف التفاصيل هنا":"اكتب جوابك هنا"}"></textarea>`;
-        return `<div class="q"><label class="t" for="${q.id}">${esc(q.t)}${q.req?' <span style="color:var(--orange)">*</span>':""}</label>${hint}${chips}${field}</div>`;
+          ? `<input type="${q.type}" id="${q.id}" name="${q.id}" ${q.req?"required":""} ${q.type==="tel"?'dir="ltr" inputmode="tel" autocomplete="tel"':""} ${desc?`aria-describedby="${desc}"`:""}>${q.type==="tel"?`<div class="field-err" id="e-${q.id}" role="alert"></div>`:""}`
+          : `<textarea id="${q.id}" name="${q.id}" ${desc?`aria-describedby="${desc}"`:""} placeholder="${q.chips?"اختار من فوك وأضف التفاصيل هنا":"اكتب جوابك هنا"}"></textarea>`;
+        return `<div class="q"><label class="t" for="${q.id}">${esc(q.t)}${q.req?' <span class="req">*</span>':""}</label>${hint}${chips}${field}</div>`;
       }).join("")}
     </div>`).join("");
   const last = i===PARTS.length-1;
   panels.insertAdjacentHTML("beforeend",`
     <section class="panel" id="panel-${i}" tabindex="-1" aria-labelledby="ph-${i}">
-      <div class="panel-head"><div class="part">${esc(p.part)}</div><h2 id="ph-${i}">${esc(p.title)}</h2><p>${esc(p.desc)}</p></div>
+      <div class="panel-head"><span class="part">${esc(p.part)}</span><h2 id="ph-${i}">${esc(p.title)}</h2><p>${esc(p.desc)}</p></div>
       ${groups}
       <div class="nav-btns">
-        ${i>0?`<button type="button" class="btn btn-line" data-go="${i-1}">السابق</button>`:"<span></span>"}
-        ${last?`<button type="submit" class="btn btn-primary" id="sendBtn">إرسال الإجابات</button>`
-              :`<button type="button" class="btn btn-primary" data-go="${i+1}">التالي: ${esc(PARTS[i+1].rail)}</button>`}
+        ${i>0?`<button type="button" class="pill pill-dark" data-go="${i-1}">السابق</button>`:"<span></span>"}
+        ${last?`<button type="submit" class="pill pill-orange" id="sendBtn">إرسال الإجابات</button>`
+              :`<button type="button" class="pill pill-white" data-go="${i+1}">التالي: ${esc(PARTS[i+1].rail)}</button>`}
       </div>
       ${last?`<div class="err" id="err" role="alert"></div>`:""}
     </section>`);
 });
 
-/* ================= الحالة والحفظ ================= */
+function normPhone(v){
+  return String(v||"").replace(/[٠-٩]/g,d=>"0123456789"["٠١٢٣٤٥٦٧٨٩".indexOf(d)])
+    .replace(/[۰-۹]/g,d=>"0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(d)]).replace(/[\s\-()]/g,"");
+}
+function phoneOk(v){
+  const p=normPhone(v);
+  return /^(\+?964|00964)7\d{9}$/.test(p) || /^07\d{9}$/.test(p) || /^\+?\d{8,15}$/.test(p);
+}
+function checkInfo(showErr){
+  let first=null;
+  infoQs.filter(q=>q.req).forEach(q=>{
+    const el=document.getElementById(q.id), v=(state.v[q.id]||"").trim();
+    let bad=!v, msg="";
+    if(q.type==="tel"){ bad = !v || !phoneOk(v); msg = !v ? "رقم الهاتف مطلوب." : (bad ? "اكتب رقم هاتف صحيح بالأرقام فقط، مثلاً 07801234567." : ""); }
+    if(showErr){
+      el.setAttribute("aria-invalid", bad?"true":"false");
+      const e=document.getElementById("e-"+q.id); if(e) e.textContent = msg;
+    }
+    if(bad && !first) first=el;
+  });
+  return first;
+}
+
 let state = {v:{}, chips:{}, step:0};
 try{ const s = JSON.parse(localStorage.getItem(STORE_KEY)||"null"); if(s) state = Object.assign(state,s); }catch(e){}
-
 allQs.forEach(q=>{ const el=document.getElementById(q.id); if(state.v[q.id]) el.value=state.v[q.id]; });
 document.querySelectorAll(".chip").forEach(c=>{
   if((state.chips[c.dataset.q]||[]).includes(c.dataset.v)) c.setAttribute("aria-pressed","true");
 });
-
 let saveT;
 function save(){
   try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
@@ -392,57 +497,57 @@ function progress(){
   document.getElementById("progBar").style.width = (n/countable.length*100)+"%";
   PARTS.forEach((p,i)=>{
     const qs=p.groups.flatMap(g=>g.qs);
-    rail.querySelectorAll("button")[i].classList.toggle("done", i===0 ? qs.every(q=>!q.req||answered(q)) : qs.every(answered));
+    const done = i===0 ? !checkInfo(false) : qs.every(answered);
+    rail.querySelectorAll("button")[i].classList.toggle("done", done);
   });
 }
-
 document.getElementById("survey").addEventListener("input",e=>{
-  if(e.target.name){ state.v[e.target.name]=e.target.value; save(); }
+  if(e.target.name){
+    state.v[e.target.name]=e.target.value;
+    if(e.target.getAttribute("aria-invalid")==="true") checkInfo(true);
+    save();
+  }
 });
 document.addEventListener("click",e=>{
   const c=e.target.closest(".chip");
   if(c){
-    const on=c.getAttribute("aria-pressed")!=="true"; c.setAttribute("aria-pressed",on);
+    const on=c.getAttribute("aria-pressed")!=="true"; c.setAttribute("aria-pressed",String(on));
     const arr=state.chips[c.dataset.q]||[];
     state.chips[c.dataset.q]= on?[...arr,c.dataset.v]:arr.filter(x=>x!==c.dataset.v);
     save(); return;
   }
   const g=e.target.closest("[data-go]");
-  if(g){ const to=+g.dataset.go; if(to>state.step && !validInfo(to)) return; show(to,true); }
+  if(g){
+    const to=+g.dataset.go;
+    if(state.step===0 && to>0){ const bad=checkInfo(true); if(bad){ bad.focus(); return; } }
+    show(to,true);
+  }
 });
-
-function validInfo(to){
-  if(state.step!==0 && to!==PARTS.length) return true;
-  const miss = PARTS[0].groups[0].qs.filter(q=>q.req && !(state.v[q.id]||"").trim());
-  if(miss.length && state.step===0){ const el=document.getElementById(miss[0].id); el.focus(); el.style.borderColor="#C0392B"; return false; }
-  return true;
-}
-
 function show(i,scroll){
   state.step=i; save();
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("on"));
   const panel=document.getElementById(i===PARTS.length?"panel-done":"panel-"+i);
   panel.classList.add("on");
   rail.querySelectorAll("button").forEach((b,k)=> k===i?b.setAttribute("aria-current","step"):b.removeAttribute("aria-current"));
-  if(scroll){ document.getElementById("form").scrollIntoView(); panel.focus({preventScroll:true}); }
+  if(scroll){ document.querySelector("#form .layout").scrollIntoView(); panel.focus({preventScroll:true}); }
 }
 
-/* ================= الإرسال ================= */
 document.getElementById("survey").addEventListener("submit",async e=>{
   e.preventDefault();
   const err=document.getElementById("err"), btn=document.getElementById("sendBtn");
-  const miss = PARTS[0].groups[0].qs.filter(q=>q.req && !(state.v[q.id]||"").trim());
-  if(miss.length){ err.textContent="الاسم ورقم الهاتف مطلوبين. ارجع لخطوة معلومات التواصل وكمّلهم."; return; }
-  if(!SCRIPT_URL){ err.textContent="رابط الإرسال مو مضبوط بعد. راسلنا على واتساب وندزلك الرابط الصحيح."; return; }
-
+  if(checkInfo(false)){
+    err.textContent="الاسم ورقم هاتف صحيح مطلوبين. رجعناك لخطوة معلومات التواصل حتى تكمّلهم.";
+    setTimeout(()=>{ show(0,true); const b=checkInfo(true); if(b) b.focus(); },900);
+    return;
+  }
   const body=new URLSearchParams();
   body.append("submitted_at", new Date().toISOString());
   allQs.forEach(q=>{
     const chips=(state.chips[q.id]||[]).join("، ");
-    const txt=(state.v[q.id]||"").trim();
+    let txt=(state.v[q.id]||"").trim();
+    if(q.type==="tel") txt=normPhone(txt);
     body.append(q.id, [chips,txt].filter(Boolean).join(" — "));
   });
-
   btn.disabled=true; btn.textContent="جاري الإرسال…"; err.textContent="";
   try{
     await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",body});
@@ -451,9 +556,15 @@ document.getElementById("survey").addEventListener("submit",async e=>{
     err.textContent="ما وصل الإرسال. تأكد من الإنترنت واضغط إرسال مرة ثانية — إجاباتك محفوظة.";
   }finally{ btn.disabled=false; btn.textContent="إرسال الإجابات"; }
 });
-
 show(state.sent?PARTS.length:Math.min(state.step,PARTS.length-1),false);
 progress();
+
+(function(){
+  const els=document.querySelectorAll(".reveal");
+  if(!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches){ els.forEach(e=>e.classList.add("in")); return; }
+  const io=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } }),{threshold:.15,rootMargin:"0px 0px -40px 0px"});
+  els.forEach((e,i)=>{ const sib=[...e.parentElement.children].filter(x=>x.classList.contains("reveal")); e.style.transitionDelay=(Math.min(sib.indexOf(e),4)*90)+"ms"; io.observe(e); });
+})();
 </script>
 </body>
 </html>
